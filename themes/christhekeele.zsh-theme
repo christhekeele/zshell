@@ -2,25 +2,7 @@
 #   aperiodic: http://aperiodic.net/phil/prompt/
 #   stevelosh: http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/
 
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' stagedstr '$PR_GREEN●'
-zstyle ':vcs_info:*' unstagedstr '$PR_YELLOW●'
-zstyle ':vcs_info:*' check-for-changes true
-# zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '$PR_MAGENTA%r'
-zstyle ':vcs_info:*' enable git svn
-if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-	if [[ -n "0" ]] {
-	    zstyle ':vcs_info:*' formats '[$PR_WHITE%{%}%b%c%u$PR_BLUE]'
-	} else {
-	    zstyle ':vcs_info:*' formats '[$PR_GREEN↑$PR_WHITE%{%}%b%c%u$PR_BLUE]'
-	}
-} else {
-	if [[ -n "0" ]] {
-        zstyle ':vcs_info:*' formats '[$PR_WHITE%{%}%b%c%u$PR_RED●$PR_BLUE]'
-	} else {
-        zstyle ':vcs_info:*' formats '[$PR_GREEN↑$PR_WHITE%{%}%b%c%u$PR_RED●$PR_BLUE]'
-	}
-}
+
 
 function precmd {
 
@@ -37,14 +19,33 @@ function precmd {
     local pwdsize=${#${(%):-%~}}
     
     if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
-	    ((PR_PWDLEN=$TERMWIDTH - $promptsize))
+        ((PR_PWDLEN=$TERMWIDTH - $promptsize))
     else
-	PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)))..${PR_HBAR}.)}"
+    PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)))..${PR_HBAR}.)}"
     fi
 
     
     # batt_info="$(python /usr/local/bin/batt_info.py)"
-	# # REPO INFO
+    # # REPO INFO
+    autoload -Uz vcs_info
+    zstyle ':vcs_info:*' stagedstr '$PR_GREEN●'
+    zstyle ':vcs_info:*' unstagedstr '$PR_YELLOW●'
+    zstyle ':vcs_info:*' check-for-changes true
+    # zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '$PR_MAGENTA%r'
+    zstyle ':vcs_info:*' enable git svn
+    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
+        if [[ -n "0" ]] {
+            zstyle ':vcs_info:*' formats '[$PR_WHITE%{%}%b%c%u$PR_BLUE]'
+        } else {
+            zstyle ':vcs_info:*' formats '[$PR_GREEN↑$PR_WHITE%{%}%b%c%u$PR_BLUE]'
+        }
+    } else {
+        if [[ -n "0" ]] {
+            zstyle ':vcs_info:*' formats '[$PR_WHITE%{%}%b%c%u$PR_RED●$PR_BLUE]'
+        } else {
+            zstyle ':vcs_info:*' formats '[$PR_GREEN↑$PR_WHITE%{%}%b%c%u$PR_RED●$PR_BLUE]'
+        }
+    }
     vcs_info
 
 }
@@ -52,8 +53,8 @@ function precmd {
 setopt extended_glob
 preexec () {
     if [[ "$TERM" == "screen" ]]; then
-	local CMD=${1[(wr)^(*=*|sudo|-*)]}
-	echo -n "\ek$CMD\e\\"
+    local CMD=${1[(wr)^(*=*|sudo|-*)]}
+    echo -n "\ek$CMD\e\\"
     fi
 }
 
@@ -66,12 +67,12 @@ setprompt () {
     # See if we can use colors.
     autoload colors zsh/terminfo
     if [[ "$terminfo[colors]" -ge 8 ]]; then
-	colors
+    colors
     fi
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-	eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-	eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-	(( count = $count + 1 ))
+    eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+    eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+    (( count = $count + 1 ))
     done
     PR_NO_COLOUR="%{$terminfo[sgr0]%}"
 
@@ -93,23 +94,23 @@ setprompt () {
     # Decide if we need to set titlebar text.
     
     case $TERM in
-	xterm*)
-	    PR_TITLEBAR=$'%{\e]0;%(!.-=*[ROOT]*=- | .)%n@%m:%~ | ${COLUMNS}x${LINES} | %y\a%}'
-	    ;;
-	screen)
-	    PR_TITLEBAR=$'%{\e_screen \005 (\005t) | %(!.-=[ROOT]=- | .)%n@%m:%~ | ${COLUMNS}x${LINES} | %y\e\\%}'
-	    ;;
-	*)
-	    PR_TITLEBAR=''
-	    ;;
+    xterm*)
+        PR_TITLEBAR=$'%{\e]0;%(!.-=*[ROOT]*=- | .)%n@%m:%~ | ${COLUMNS}x${LINES} | %y\a%}'
+        ;;
+    screen)
+        PR_TITLEBAR=$'%{\e_screen \005 (\005t) | %(!.-=[ROOT]=- | .)%n@%m:%~ | ${COLUMNS}x${LINES} | %y\e\\%}'
+        ;;
+    *)
+        PR_TITLEBAR=''
+        ;;
     esac
     
     ###
     # Decide whether to set a screen title
     if [[ "$TERM" == "screen" ]]; then
-	PR_STITLE=$'%{\ekzsh\e\\%}'
+    PR_STITLE=$'%{\ekzsh\e\\%}'
     else
-	PR_STITLE=''
+    PR_STITLE=''
     fi
     
     ###
