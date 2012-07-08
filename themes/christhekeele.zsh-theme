@@ -1,8 +1,9 @@
+# Reference this in your .zshrc file
+# ZSH_THEME="christhekeele"
+
 # Thanks to:
 #   aperiodic: http://aperiodic.net/phil/prompt/
 #   stevelosh: http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/
-
-
 
 function precmd {
 

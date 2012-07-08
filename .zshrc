@@ -1,3 +1,5 @@
+# Put or link this into your home directory
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
