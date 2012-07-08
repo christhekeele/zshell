@@ -1,3 +1,7 @@
+# Thanks to:
+#   aperiodic: http://aperiodic.net/phil/prompt/
+#   stevelosh: http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/
+
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' stagedstr '$PR_GREEN●'
 zstyle ':vcs_info:*' unstagedstr '$PR_YELLOW●'
