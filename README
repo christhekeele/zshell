@@ -1,0 +1,8 @@
+I clone this directory into my home folder, then link each file to where it belongs:
+
+ln -s:
+christhekeele.zsh-theme => ~/.oh-my-zsh/themes/christhekeele.zsh-theme OR ~/.zsh-themes/christhekeele.zsh-theme
+.zshrc => ~/.zshrc
+zshenv => /etc/zshenv (requires sudo)
+
+NOTE: Use absolute paths when running ln -s or you'll die.
