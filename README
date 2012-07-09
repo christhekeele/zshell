@@ -9,4 +9,4 @@ NOTE: Use absolute paths when running ln -s or you'll die.
 
 In progress:
 Low battery notification
-Pending git push/pull notification
+Pending git push/pull notification --this is complicated
